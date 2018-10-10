@@ -33,14 +33,18 @@ module.exports = (argv, handlers) => {
       command: `new [rootPath] [starter]`,
       desc: `Create new project.`,
       handler: handlerP(
-        ({ rootPath, starter = `facebook/create-react-app` }) => {
+        ({ rootPath, starter }) => {
           const initStarter = require(`./init`)
-          return initStarter(starter, { rootPath })
+          switch (starter) {
+            case 'cra':
+              return initStarter('facebook/create-react-app', { rootPath })
+            case 'gatsby':
+              return initStarter('gatsbyjs/gatsby-starter-default', { rootPath })
+          }
         }
       ),
     })
     .wrap(cli.terminalWidth())
-    .demandCommand(1, `Pass --help to see all available commands and options.`)
     .strict()
     .showHelpOnFail(true)
     .recommendCommands()
