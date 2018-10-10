@@ -34,7 +34,7 @@ module.exports = (argv, handlers) => {
       desc: `Create new project.`,
       handler: handlerP(
         ({ rootPath, starter = `facebook/create-react-app` }) => {
-          const initStarter = require(`./init-starter`)
+          const initStarter = require(`./init`)
           return initStarter(starter, { rootPath })
         }
       ),
