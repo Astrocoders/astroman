@@ -30,21 +30,29 @@ module.exports = (argv, handlers) => {
 
   return cli
     .command({
-      command: `new [rootPath] [starter]`,
-      desc: `Create new project.`,
-      handler: handlerP(
-        ({ rootPath, starter }) => {
-          const initStarter = require(`./init`)
-          switch (starter) {
-            case 'cra':
-              return initStarter('facebook/create-react-app', { rootPath })
-            case 'gatsby':
-              return initStarter('gatsbyjs/gatsby-starter-default', { rootPath })
-          }
-        }
-      ),
+      cmd: 'new',
+      desc: 'Create new project.',
+      subcommands: [
+        {
+          cmd: '[rootPath] cra',
+          desc: 'create a new project',
+          fn: function ({rootPath}) { 
+            const initStarter = require(`./init`)
+            return initStarter(`facebook/create-react-app`, { rootPath })
+           }
+        },
+        {
+          cmd: '[rootPath] gatsby',
+          desc: 'create a new project',
+          fn: function ({rootPath}) { 
+            const initStarter = require(`./init`)
+            return initStarter(`gatsbyjs/gatsby-starter-default`, { rootPath })
+           }
+        },
+      ]
     })
     .wrap(cli.terminalWidth())
+    .demandCommand(1, `Pass --help to see all available commands and options.`)
     .strict()
     .showHelpOnFail(true)
     .recommendCommands()
