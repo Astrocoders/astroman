@@ -30,11 +30,11 @@ module.exports = (argv, handlers) => {
 
   return cli
     .command({
-      cmd: 'new [rootPath]',
+      command: 'new [rootPath]',
       desc: 'astro-cli new <project-name> [cra|gatsby|reason]',
       subcommands: [
         {
-          cmd: 'cra',
+          command: 'cra',
           desc: 'create a new project',
           handler: handlerP(
             ({ rootPath }) => {
@@ -44,7 +44,7 @@ module.exports = (argv, handlers) => {
           ),
         },
         {
-          cmd: 'gatsby',
+          command: 'gatsby',
           desc: 'create a new project',
           handler: handlerP(
             ({ rootPath }) => {
