@@ -30,24 +30,28 @@ module.exports = (argv, handlers) => {
 
   return cli
     .command({
-      cmd: 'new',
-      desc: 'Create new project.',
+      cmd: 'new [rootPath]',
+      desc: 'astro-cli new <project-name> [cra|gatsby|reason]',
       subcommands: [
         {
-          cmd: '[rootPath] cra',
+          cmd: 'cra',
           desc: 'create a new project',
-          fn: function ({rootPath}) { 
-            const initStarter = require(`./init`)
-            return initStarter(`facebook/create-react-app`, { rootPath })
-           }
+          handler: handlerP(
+            ({ rootPath }) => {
+              const initStarter = require(`./init`)
+              return initStarter(`facebook/create-react-app`, { rootPath })
+            }
+          ),
         },
         {
-          cmd: '[rootPath] gatsby',
+          cmd: 'gatsby',
           desc: 'create a new project',
-          fn: function ({rootPath}) { 
-            const initStarter = require(`./init`)
-            return initStarter(`gatsbyjs/gatsby-starter-default`, { rootPath })
-           }
+          handler: handlerP(
+            ({ rootPath }) => {
+              const initStarter = require(`./init`)
+              return initStarter(`gatsbyjs/gatsby-starter-default`, { rootPath })
+            }
+          ),
         },
       ]
     })
