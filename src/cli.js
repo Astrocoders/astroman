@@ -8,7 +8,7 @@ const handlerP = fn => (...args) => {
   )
 }
 
-module.exports = (argv, handlers) => {
+module.exports = (argv) => {
   let cli = yargs()
 
   cli
@@ -30,30 +30,14 @@ module.exports = (argv, handlers) => {
 
   return cli
     .command({
-      command: 'new',
+      command: `new [rootPath] [starter]`,
       desc: 'astro-cli new <project-name> [cra|gatsby|reason]',
-      subcommands: [
-        {
-          command: '[rootPath] cra',
-          desc: 'create a new project',
-          handler: handlerP(
-            ({ rootPath }) => {
-              const initStarter = require(`./init`)
-              return initStarter(`facebook/create-react-app`, { rootPath })
-            }
-          ),
-        },
-        {
-          command: '[rootPath] gatsby',
-          desc: 'create a new project',
-          handler: handlerP(
-            ({ rootPath }) => {
-              const initStarter = require(`./init`)
-              return initStarter(`gatsbyjs/gatsby-starter-default`, { rootPath })
-            }
-          ),
-        },
-      ]
+      handler: handlerP(
+        ({ rootPath, starter = `gatsby` }) => {
+          const initStarter = require(`./init`)
+          return initStarter(starter, { rootPath })
+        }
+      ),
     })
     .wrap(cli.terminalWidth())
     .demandCommand(1, `Pass --help to see all available commands and options.`)

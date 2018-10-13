@@ -1,11 +1,11 @@
 /* @flow */
 const { execSync } = require(`child_process`)
 const execa = require(`execa`)
-const hostedGitInfo = require(`hosted-git-info`)
 const fs = require(`fs-extra`)
 const sysPath = require(`path`)
 const report = require(`./reporter`)
 const url = require(`url`)
+const os = require('os')
 const existsSync = require(`fs-exists-cached`).sync
 
 const spawn = (cmd: string) => {
@@ -40,64 +40,52 @@ const install = async rootPath => {
   } finally {
     process.chdir(prevDir)
   }
+
+  // changes the project name on package.json, needs improvement
+
+  // const projectDetails = {
+  //   name: rootPath,
+  //   version: '0.1.0',
+  //   private: false,
+  // }
+
+  // fs.writeFileSync(
+  //   sysPath.join(rootPath, 'package.json'),
+  //   JSON.stringify(projectDetails, null, 2) + os.EOL
+  // )
 }
 
-const ignored = path => !/^\.(git|hg)$/.test(sysPath.basename(path))
+// Install starter from URI.
+const starterInstall = async (src: string, path: string) => {
 
-// Copy starter from file system.
-const copy = async (starterPath: string, rootPath: string) => {
-  // Chmod with 755.
-  // 493 = parseInt('755', 8)
-  await fs.mkdirp(rootPath, { mode: 493 })
-
-  if (!existsSync(starterPath)) {
-    throw new Error(`starter ${starterPath} doesn't exist`)
-  }
-
-  if (starterPath === `.`) {
-    throw new Error(
-      `You can't create a starter from the existing directory. If you want to
-      create a new site in the current directory, the trailing dot isn't
-      necessary. If you want to create a new site from a local starter, run
-      something like "astro-cli new awesome-project user/repo"`
-    )
-  }
-
-  report.info(`Creating new site from local starter: ${starterPath}`)
-
-  report.log(`Copying local starter to ${rootPath} ...`)
-
-  await fs.copy(starterPath, rootPath, { filter: ignored })
+  await spawn(`git clone https://github.com/${src} ${path} --single-branch`)
 
   report.success(`Created starter directory layout`)
 
-  await install(rootPath)
+  await fs.remove(sysPath.join(path, `.git`))
 
-  return true
+  await install(path)
+
 }
 
-// Clones starter from URI.
-const clone = async (hostInfo: any, rootPath: string) => {
-  let url
-  // Let people use private repos accessed over SSH.
-  if (hostInfo.getDefaultRepresentation() === `sshurl`) {
-    url = hostInfo.ssh({ noCommittish: true })
-    // Otherwise default to normal git syntax.
-  } else {
-    url = hostInfo.https({ noCommittish: true, noGitPlus: true })
+// Get starter by name and runs the starterInstall
+const clone = async (starter: string, rootPath: string) => {
+
+  report.info(`Creating new ${starter} project on: ${rootPath}`)
+
+  if (starter === 'cra') {
+    await starterInstall('astrocoders/cra-starter', rootPath)
   }
 
-  const branch = hostInfo.committish ? `-b ${hostInfo.committish}` : ``
+  if (starter === 'gatsby') {
+    await starterInstall('astrocoders/gatsby-starter', rootPath)
+  }
 
-  report.info(`Creating new site from git: ${url}`)
+  if (starter === 'reason') {
+    await starterInstall('astrocoders/reasonml-starter', rootPath)
+  }
 
-  await spawn(`git clone ${branch} ${url} ${rootPath} --single-branch`)
-
-  report.success(`Created starter directory layout`)
-
-  await fs.remove(sysPath.join(rootPath, `.git`))
-
-  await install(rootPath)
+  
 }
 
 type InitOptions = {
@@ -105,7 +93,7 @@ type InitOptions = {
 }
 
 /**
- * Main function that clones or copies the starter.
+ * Main function that clones or copies the cli.
  */
 module.exports = async (starter: string, options: InitOptions = {}) => {
   const rootPath = options.rootPath || process.cwd()
@@ -113,7 +101,7 @@ module.exports = async (starter: string, options: InitOptions = {}) => {
   const urlObject = url.parse(rootPath)
   if (urlObject.protocol && urlObject.host) {
     report.panic(
-      `It looks like you forgot to add a name for your new project. Try running instead "astro-cli new awesome-project ${rootPath}"`
+      `It looks like you forgot to add a name for your new project. Try running instead "astro-cli new ${rootPath} [cra|gatsby|reason]"`
     )
     return
   }
@@ -123,7 +111,5 @@ module.exports = async (starter: string, options: InitOptions = {}) => {
     return
   }
 
-  const hostedInfo = hostedGitInfo.fromUrl(starter)
-  if (hostedInfo) await clone(hostedInfo, rootPath)
-  else await copy(starter, rootPath)
+  await clone(starter, rootPath)
 }

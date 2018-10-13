@@ -1,7 +1,7 @@
 {
   "name": "astro-cli",
   "description": "Command-line interface for creating new sites based on Gatsby, ReasonML or Create React App",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Astrocoders <hello@astrocoders.com>",
   "bin": {
     "astro-cli": "lib/index.js"
