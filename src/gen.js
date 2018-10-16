@@ -13,12 +13,11 @@ module.exports = async (template: string, name: string) => {
     )
   } else {
     const creator = require(`./.templates/${template}.js`)
-
-    const destination = sysPath.join(creator.where(name))
-
-    const content = creator.gen(name, { commonTags, chalk })
   
-    await fs.writeFileSync(destination, content)
+    await fs.writeFileSync(
+      sysPath.join(creator.where(name)),
+      creator.gen(name, { commonTags, chalk })
+    )
   
     creator.postBuild({ chalk })
   }

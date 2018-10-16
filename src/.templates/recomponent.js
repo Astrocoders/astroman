@@ -1,9 +1,17 @@
 const { stripIndent } = require('common-tags')
 const chalk = require('chalk')
+const fs = require('fs')
 
 module.exports.args = { name: 'Component name' }
 
-module.exports.where = (name) => `re/components/${name}.re`
+module.exports.where = (name) => {
+  if (!fs.existsSync('components')){
+    fs.mkdirSync('components')
+    return `components/${name}.re`
+  } else {
+    return `components/${name}.re`
+  }
+}
 
 module.exports.postBuild = () =>
   console.log('✅ ', chalk.green('Component successfully created'))
