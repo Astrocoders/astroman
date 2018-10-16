@@ -34,6 +34,17 @@ const install = async rootPath => {
   report.info(`Installing packages...`)
   process.chdir(rootPath)
 
+  // changes the project name on package.json, needs improvement
+
+  const json = JSON.parse(fs.readFileSync('package.json'))
+
+  json.name = rootPath
+
+  await fs.writeFileSync(
+    sysPath.join('package.json'),
+    JSON.stringify(json, null, 2) + os.EOL
+  )
+
   try {
     let cmd = shouldUseYarn() ? spawn(`yarnpkg`) : spawn(`npm install`)
     await cmd
@@ -41,18 +52,6 @@ const install = async rootPath => {
     process.chdir(prevDir)
   }
 
-  // changes the project name on package.json, needs improvement
-
-  // const projectDetails = {
-  //   name: rootPath,
-  //   version: '0.1.0',
-  //   private: false,
-  // }
-
-  // fs.writeFileSync(
-  //   sysPath.join(rootPath, 'package.json'),
-  //   JSON.stringify(projectDetails, null, 2) + os.EOL
-  // )
 }
 
 // Install starter from URI.
