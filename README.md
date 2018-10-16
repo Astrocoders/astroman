@@ -16,3 +16,9 @@ When you create a project running astro-cli, you will get projects with our guid
 ### New
 
 `astro-cli new awesome-project [cra|gatsby|reason]`
+
+### Gen
+
+Astro-cli already comes with [gen](https://github.com/Astrocoders/gen), a simple lib that we use for fast generating components and screens.
+
+`astro-cli gen recomponent Test`
