@@ -25,26 +25,28 @@ We grouped generators by language, currently we have Javascript and ReasonML ava
 
 #### JavaScript
 
-Create a simple react component
-`astro-cli gen jscomponent Test`
+Create a simple react component. This command also create automatically a test file and a docz story for it.
+`astro-cli gen component js Test`
 
 Create tests for this component
-`astro-cli gen jstest Test`
+`astro-cli gen test js Test`
 
 Create a docz file for this component
-`astro-cli gen jsstory Test`
+`astro-cli gen story js Test`
 
 
 #### ReasonML
 
 Create a simple reasonml component
-`astro-cli gen recomponent Test`
+`astro-cli gen component re Test`
+
+Create tests for this component
+`astro-cli gen test re Test`
 
 Create a story on storybook for this component
-`astro-cli gen restory Test`
+`astro-cli gen story re Test`
 
 
-#### ReasonML
+#### React Native
 
-Create a scene
-`astro-cli gen rnmlscene Test`
+WIP!
