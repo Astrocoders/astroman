@@ -13,8 +13,8 @@ module.exports.where = (name) => {
   }
 }
 
-module.exports.postBuild = () =>
-  console.log('✅ ', chalk.green('Component successfully created'))
+module.exports.postBuild = (name) =>
+  console.log('✅ ', chalk.green(`Component ${name} successfully created`))
 
 module.exports.gen = (name) => stripIndent`
 open Rebolt;

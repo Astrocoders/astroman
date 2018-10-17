@@ -13,10 +13,10 @@ module.exports.where = (name) => {
   }
 }
 
-module.exports.postBuild = () =>
+module.exports.postBuild = (name) =>
   console.log(
     '✅ ',
-    chalk.green('You can see your component on docz/ folder'),
+    chalk.green(`You can see your component on docz/${name}.mdx`),
   )
 
 module.exports.gen = (name) => stripIndent`

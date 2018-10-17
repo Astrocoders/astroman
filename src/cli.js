@@ -40,12 +40,12 @@ module.exports = (argv) => {
       ),
     })
     .command({
-      command: `gen [template] [name]`,
-      desc: 'astro-cli gen <template-name> <filename>',
+      command: `gen [template] [language] [name]`,
+      desc: 'astro-cli gen <template> <language> <name>',
       handler: handlerP(
-        ({ template, name }) => {
+        ({ template, language, name }) => {
           const initGenerator = require(`./gen`)
-          return initGenerator(template, name)
+          return initGenerator(template, language, name)
         }
       ),
     })
