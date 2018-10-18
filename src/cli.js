@@ -33,9 +33,19 @@ module.exports = (argv) => {
       command: `new [rootPath] [starter]`,
       desc: 'astro-cli new <project-name> [cra|gatsby|reason]',
       handler: handlerP(
-        ({ rootPath, starter = `gatsby` }) => {
+        ({ rootPath, starter }) => {
           const initStarter = require(`./init`)
           return initStarter(starter, { rootPath })
+        }
+      ),
+    })
+    .command({
+      command: `gen [template] [language] [name]`,
+      desc: 'astro-cli gen <template> <language> <name>',
+      handler: handlerP(
+        ({ template, language, name }) => {
+          const initGenerator = require(`./gen`)
+          return initGenerator(template, language, name)
         }
       ),
     })
