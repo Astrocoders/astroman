@@ -34,8 +34,6 @@ const install = async rootPath => {
   report.info(`Installing packages...`)
   process.chdir(rootPath)
 
-  // changes the project name on package.json, needs improvement
-
   const json = JSON.parse(fs.readFileSync('package.json'))
 
   json.name = rootPath

@@ -49,6 +49,16 @@ module.exports = (argv) => {
         }
       ),
     })
+    .command({
+      command: `copy [kind] [name] [destination]`,
+      desc: 'astro-cli copy <kind> <name> <destination>',
+      handler: handlerP(
+        ({ kind, name, destination }) => {
+          const copyFile = require(`./copy`)
+          return copyFile(kind, name, destination)
+        }
+      ),
+    })
     .wrap(cli.terminalWidth())
     .demandCommand(1, `Pass --help to see all available commands and options.`)
     .strict()
