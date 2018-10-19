@@ -27,10 +27,12 @@ module.exports = async (template: string, language: string, name: string) => {
   } else {
 
     if (template === 'component') {
+      process.chdir(`src`)
       await createFile('component', language, name)
       await createFile('test', language, name)
       await createFile('story', language, name)
     } else {
+      process.chdir(`src`)
       await createFile(template, language, name)
     }
   }
