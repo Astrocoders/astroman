@@ -50,12 +50,12 @@ module.exports = (argv) => {
       ),
     })
     .command({
-      command: `copy [kind] [name] [destination]`,
-      desc: 'astro-cli copy <kind> <name> <destination>',
+      command: `copy [kind] [name] [destination] [branch]`,
+      desc: 'astro-cli copy <kind> <name> <destination> <branch>',
       handler: handlerP(
-        ({ kind, name, destination }) => {
+        ({ kind, name, destination, branch = `master`}) => {
           const copyFile = require(`./copy`)
-          return copyFile(kind, name, destination)
+          return copyFile(kind, name, destination, branch)
         }
       ),
     })
