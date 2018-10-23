@@ -26,6 +26,13 @@ module.exports = async (template: string, language: string, name: string) => {
     )
   } else {
 
+    if (!fs.existsSync('src')){
+      fs.mkdirSync('src')
+      process.chdir(`src`)
+    } else {
+      process.chdir(`src`)
+    }
+
     if (template === 'component') {
       await createFile('component', language, name)
       await createFile('test', language, name)
