@@ -11,6 +11,10 @@ const spawn = (cmd: string) => {
 }
 
 module.exports = async (kind: string, name: string, destination: string, branch: string) => {
+  
+  const language = name.substr(name.indexOf('.') + 1)
+  const pureName = name.substring(0, name.lastIndexOf('.'))
+
   if (!name) {
     console.log(
       '🤷',
@@ -28,5 +32,17 @@ module.exports = async (kind: string, name: string, destination: string, branch:
     }
     await spawn(`curl https://raw.githubusercontent.com/astrocoders/${destination}/${branch}/src/${kind}s/${name} --output ${name}`)
     console.log('✅ ', chalk.green(`${kind} ${name} successfully copied!`))
+
+    if (kind === 'component') {
+      if (language === 'js') {
+        await spawn(`curl https://raw.githubusercontent.com/astrocoders/${destination}/${branch}/src/docz/${pureName}.mdx --output ${pureName}.mdx`)
+        console.log('✅ ', chalk.green(`Docz story relative to ${name} ${kind} was successfully copied!`))
+      }
+
+      if (language === 're') {
+        await spawn(`curl https://raw.githubusercontent.com/astrocoders/${destination}/${branch}/src/stories/${pureName}Stories.re --output ${pureName}Stories.re`)
+        console.log('✅ ', chalk.green(`Storybook story relative to ${name} ${kind} was successfully copied!`))
+      }
+    }
   }
 }
