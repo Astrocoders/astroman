@@ -100,7 +100,7 @@ module.exports = async (starter: string, options: InitOptions = {}) => {
   const urlObject = url.parse(rootPath)
   if (urlObject.protocol && urlObject.host) {
     report.panic(
-      `It looks like you forgot to add a name for your new project. Try running instead "astro-cli new ${rootPath} [cra|gatsby|reason]"`
+      `It looks like you forgot to add a name for your new project. Try running instead "astroman new ${rootPath} [cra|gatsby|reason]"`
     )
     return
   }
