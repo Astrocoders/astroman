@@ -1,4 +1,4 @@
-# Astroman
+# Astroman 🧐
 
 Astrocoders command line tool.
 
