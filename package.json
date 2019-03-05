@@ -1,8 +1,8 @@
 {
-  "name": "astroman",
+  "name": "@astrocoders/astroman",
   "description": "Command-line interface for creating new sites based on Gatsby, ReasonML or Create React App",
   "version": "1.2.0",
-  "author": "Astrocoders <hello@astrocoders.com>",
+  "author": "Astrocoders <astrocoders.com>",
   "bin": {
     "astroman": "lib/index.js"
   },
