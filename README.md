@@ -11,7 +11,7 @@ When you create a project running astroman, you will get projects with our guide
 
 ## Install
 
-`npm install --global astroman`
+`npm install --global @astrocoders/astroman`
 
 ### New
 
